@@ -1,0 +1,16 @@
+{
+  "name": "fullstackbro",
+  "scripts": {
+    "start": "node src/index.js",
+    "prisma": "prisma"
+  },
+  "dependencies": {
+    "firebase-admin": "^6.3.0",
+    "graphql-yoga": "1.16.7",
+    "prisma-binding": "^2.2.10",
+    "prisma-client-lib": "1.22.2"
+  },
+  "devDependencies": {
+    "prisma": "^1.23.2"
+  }
+}

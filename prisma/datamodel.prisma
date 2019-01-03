@@ -1,0 +1,69 @@
+type User {
+  id: ID! @unique
+  fibauid: String! @unique
+  name: String! @unique
+  email: String! @unique
+  createdAt: DateTime!
+  reviews: [Review!]
+  
+  password: String #once firebase is out of the equation
+  follows: [Group!] @default(value:[])
+  roles: [Role!] @unique
+  description: String
+}
+
+fragment reviewFields on Review {
+  author {
+    name
+    id
+  }
+  target
+  targetType
+  updatedAt
+  createdAt
+  emoji
+  description
+}
+
+type Review {
+  id: ID! @unique
+  author: User!
+
+  target: String! #id of entity...in case of website => url
+  targetType: String! @default(value:"webpage") #Later Union type of Webpage | Comment | Review | Youtube | 
+
+  comments: [Review!]
+  groups: [Group!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  title: String 
+  emoji: String 
+  description: String #description is more descriptive than text
+
+}
+
+
+type Role {
+  id: ID! @unique
+  user: User!
+  group: Group #should I use ID's instead? @relation(name: "groupInsideRole", onDelete: CASCADE)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  role: String! @default(value: "member") #creator, admin, member and follower (read only)
+}
+
+type Group {
+  id: ID! @unique
+  name: String! @unique
+  createdAt: DateTime!
+  description: String
+  followers: [User!] #initial subscriber is creator
+  reviews: [Review!]
+}
+
+# renaming the `Post` type to `Story`, and its `text` field to `content`
+#type Story @rename(oldName: "Post") {
+#  content: String @rename(oldName: "text")
+#}
+#follow or resource like "Bitcoin" like you'd a group
+#type Resource implements Group {}

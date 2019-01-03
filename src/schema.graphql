@@ -1,0 +1,32 @@
+# import ReviewSubscriptionPayload, Review, User, Role, Group from "./generated/prisma-client/prisma.graphql"
+scalar DateTime
+
+type Query {
+  user(fibauid: String!): User
+  userByName(name: String!): User
+  groups(userId: String): [Group]
+  group(groupId: String): Group
+  groupByName(name: String!): Group
+  getRoles(userId: String): [Role]
+  review(id: String!): Review
+  reviews(userId: String, username: String): [Review]
+  reviewsForTarget(target: String!): [Review]
+  reviewsForGroups(groups: [String!]): [Review]
+  reviewsForUserGroups: [Review]!
+}
+type Mutation {
+  followGroup(group: String!): Group
+  unfollowGroup(group: String!): Group
+  deleteGroup(group: String!): Group
+  deleteReview(id: String!): Review
+  createGroup(name: String!, description: String): Group
+  createReview(title: String, target:String!, targetType: String, description: String, groups: [String], emoji: String): Review
+  createUser(name: String!, fibauid: String!, email: String!): User
+
+  addGroupToReview(review:String!, group:String!): Review
+  removeGroupFromReview(review:String!, group: String!): Review
+}
+
+type Subscription {
+  reviewsSub(id: String!): Review
+}
