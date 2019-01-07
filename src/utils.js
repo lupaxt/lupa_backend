@@ -44,7 +44,8 @@ async function getUserId(context, info) {
     let uid;
     //if it's an actual id from firebase
     if (token.length > 40) {
-      uid = await verifyUser(token).uid;
+      user = await verifyUser(token);
+      uid = user.uid;
     } else {
       uid = token
         .split("")
