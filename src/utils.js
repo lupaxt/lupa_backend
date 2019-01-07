@@ -38,7 +38,14 @@ async function getUserId(context, info) {
     const token = Authorization.replace("Bearer ", "");
     // console.log('backendToken', token)
     // const { userId } = jwt.verify(token, process.env.APP_SECRET)
-    const {uid} = await verifyUser(token);
+    
+    //TODO ...firebase auth deactivated because shitty api for chrome extensions
+    // const {uid} = await verifyUser(token);
+    //TODO DANGER
+    const uid = token
+      .split("")
+      .reverse()
+      .join(""); //sending fiba uid as token...with hacky 'encryption'
 
     console.log(uid, "userID")
     const user = await context.prisma.user({ fibauid: uid });
