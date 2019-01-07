@@ -40,13 +40,19 @@ async function getUserId(context, info) {
     // const { userId } = jwt.verify(token, process.env.APP_SECRET)
     
     //TODO ...firebase auth deactivated because shitty api for chrome extensions
-    // const {uid} = await verifyUser(token);
+    
+    let uid;
+    //if it's an actual id from firebase
+    if (token.length > 40) {
+      uid = await verifyUser(token).uid;
+    } else {
+      uid = token
+        .split("")
+        .reverse()
+        .join(""); //sending fiba uid as token...with hacky 'encryption'
+    }
     //TODO DANGER
-    const uid = token
-      .split("")
-      .reverse()
-      .join(""); //sending fiba uid as token...with hacky 'encryption'
-
+    
     console.log(uid, "userID")
     const user = await context.prisma.user({ fibauid: uid });
     console.log(user, "useridoo");
